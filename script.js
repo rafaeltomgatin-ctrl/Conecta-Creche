@@ -1,0 +1,1 @@
+const genAI = AIzaSyAqmzcwXWbaITUPeKtS_KlTC5MDlrivnzw
