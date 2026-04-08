@@ -1,0 +1,210 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "App user (Parent, Teacher, or Admin)",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "role": { "type": "string", "enum": ["parent", "monitor", "teacher", "admin"] },
+        "schoolId": { "type": "string" },
+        "photoUrl": { "type": "string" }
+      },
+      "required": ["uid", "name", "email", "role"]
+    },
+    "School": {
+      "title": "School",
+      "description": "Educational institution",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "address": { "type": "string" },
+        "plan": { "type": "string", "enum": ["free", "premium"] }
+      },
+      "required": ["id", "name"]
+    },
+    "Child": {
+      "title": "Child",
+      "description": "Student in the school",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "birthDate": { "type": "string", "format": "date" },
+        "schoolId": { "type": "string" },
+        "classId": { "type": "string" },
+        "photoUrl": { "type": "string" },
+        "allergies": { "type": "string" },
+        "authorizedPickups": { "type": "array", "items": { "type": "string" } },
+        "parentUids": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["id", "name", "schoolId", "parentUids"]
+    },
+    "DiaryEntry": {
+      "title": "DiaryEntry",
+      "description": "Daily record of a child's activities",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "childId": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "feeding": {
+          "type": "object",
+          "properties": {
+            "breakfast": { "type": "string" },
+            "lunch": { "type": "string" },
+            "snack": { "type": "string" }
+          }
+        },
+        "activities": { "type": "array", "items": { "type": "string" } },
+        "mood": { "type": "string", "enum": ["happy", "agitated", "sad", "calm"] },
+        "hygiene": {
+          "type": "object",
+          "properties": {
+            "bathroom": { "type": "string" },
+            "sleep": { "type": "string" },
+            "bath": { "type": "boolean" }
+          }
+        },
+        "photos": { "type": "array", "items": { "type": "string" } },
+        "diaperChanges": { "type": "integer" },
+        "waterIntake": { "type": "integer" },
+        "teacherId": { "type": "string" },
+        "importantAlert": { "type": "boolean" },
+        "alertDescription": { "type": "string" }
+      },
+      "required": ["id", "childId", "date"]
+    },
+    "Message": {
+      "title": "Message",
+      "description": "Chat message",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "chatId": { "type": "string" },
+        "senderId": { "type": "string" },
+        "text": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "chatId", "senderId", "text", "timestamp"]
+    },
+    "Event": {
+      "title": "Event",
+      "description": "School event",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "schoolId": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "date": { "type": "string", "format": "date-time" },
+        "location": { "type": "string" },
+        "confirmations": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["id", "schoolId", "title", "date"]
+    },
+    "Medication": {
+      "title": "Medication",
+      "description": "Medication instructions for a child",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "childId": { "type": "string" },
+        "name": { "type": "string" },
+        "dosage": { "type": "string" },
+        "schedule": { "type": "array", "items": { "type": "string" } },
+        "prescriptionUrl": { "type": "string" },
+        "active": { "type": "boolean" }
+      },
+      "required": ["id", "childId", "name", "dosage", "active"]
+    },
+    "GalleryPhoto": {
+      "title": "GalleryPhoto",
+      "description": "Shared gallery photo",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "schoolId": { "type": "string" },
+        "url": { "type": "string" },
+        "caption": { "type": "string" },
+        "uploadedBy": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "comments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "userId": { "type": "string" },
+              "userName": { "type": "string" },
+              "text": { "type": "string" },
+              "timestamp": { "type": "string", "format": "date-time" }
+            }
+          }
+        }
+      },
+      "required": ["id", "schoolId", "url", "uploadedBy", "timestamp"]
+    },
+    "CommunityMessage": {
+      "title": "CommunityMessage",
+      "description": "Message in the school community chat",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "schoolId": { "type": "string" },
+        "senderId": { "type": "string" },
+        "senderName": { "type": "string" },
+        "senderRole": { "type": "string" },
+        "text": { "type": "string" },
+        "photoUrl": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "schoolId", "senderId", "text", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{uid}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/schools/{schoolId}": {
+      "schema": "School",
+      "description": "School information"
+    },
+    "/children/{childId}": {
+      "schema": "Child",
+      "description": "Children records"
+    },
+    "/diary/{entryId}": {
+      "schema": "DiaryEntry",
+      "description": "Daily diary entries"
+    },
+    "/chats/{chatId}": {
+      "schema": "object",
+      "description": "Chat metadata"
+    },
+    "/chats/{chatId}/messages/{messageId}": {
+      "schema": "Message",
+      "description": "Chat messages"
+    },
+    "/events/{eventId}": {
+      "schema": "Event",
+      "description": "School events"
+    },
+    "/medications/{medicationId}": {
+      "schema": "Medication",
+      "description": "Medication records"
+    },
+    "/gallery/{photoId}": {
+      "schema": "GalleryPhoto",
+      "description": "Shared gallery photos"
+    },
+    "/community_chat/{messageId}": {
+      "schema": "CommunityMessage",
+      "description": "Community chat messages"
+    }
+  }
+}
